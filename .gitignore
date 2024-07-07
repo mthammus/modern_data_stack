@@ -160,7 +160,7 @@ terraform.tfstate.backup
 secrets.yml
 *.key
 *.pem
-docker-compose.yml
+#docker-compose.yml
 
 # Environment files
 .env
