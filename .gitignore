@@ -9,15 +9,12 @@ MAD-GAB/
 #terraform.tfvars
 *.tfstate
 backup/
-Dagster/
 data/
 #minikube/
 pgaadmin_data/
-dagster_app_data/
 history/
 schedules/
 dremio/
-minio/minio_data/
 .telemetry/
 spark/
 superset/
