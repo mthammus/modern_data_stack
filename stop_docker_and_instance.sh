@@ -29,13 +29,13 @@ else
 fi
 
 # Stop the EC2 instance from local machine
-echo "Stopping EC2 instance $INSTANCE_ID from local machine..."
-aws ec2 stop-instances --instance-ids $INSTANCE_ID
+#echo "Stopping EC2 instance $INSTANCE_ID from local machine..."
+#aws ec2 stop-instances --instance-ids $INSTANCE_ID
 
 # Check if the instance stop command was successful
-if [ $? -eq 0 ]; then
-    echo "EC2 instance $INSTANCE_ID is stopping."
-else
-    echo "Failed to stop EC2 instance $INSTANCE_ID."
-    exit 1
-fi
+#if [ $? -eq 0 ]; then
+#    echo "EC2 instance $INSTANCE_ID is stopping."
+#else
+#    echo "Failed to stop EC2 instance $INSTANCE_ID."
+#    exit 1
+#fi

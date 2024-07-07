@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Navigate to the airbyte/docker directory and start the Docker Compose service
-cd airbyte
+cd /home/ec2-user/modern_data_stack/airbyte
 docker compose start
 
 # Navigate to the parent directory and then to docker/docker directory, then start the Docker Compose service
-cd ..
+cd /home/ec2-user/modern_data_stack/
 docker compose start
 docker start superset
 
