@@ -9,61 +9,72 @@ wait_for_container() {
     done
 }
 
-# Update all packages
-sudo yum update -y
+# Step to re-execute the script if needed
+if [ "$1" != "second_run" ]; then
+    echo "Initial setup started"
 
-# Install git
-sudo yum install git -y
+    # Update all packages
+    sudo yum update -y
 
-# Install Docker
-sudo yum install docker -y
+    # Install git
+    sudo yum install git -y
 
-# Start Docker service
-sudo systemctl start docker
+    # Install Docker
+    sudo yum install docker -y
 
-# Enable Docker to start on boot
-sudo systemctl enable docker
+    # Start Docker service
+    sudo systemctl start docker
 
-# Add ec2-user to the Docker group
-sudo usermod -aG docker ec2-user
+    # Enable Docker to start on boot
+    sudo systemctl enable docker
 
-# Install Python3 and pip
-sudo yum install python3-pip -y
+    # Add ec2-user to the Docker group
+    sudo usermod -aG docker ec2-user
 
-# Create directory for Docker CLI plugins
-sudo mkdir -p /usr/local/lib/docker/cli-plugins
+    # Install Python3 and pip
+    sudo yum install python3-pip -y
 
-# Download Docker Compose
-sudo curl -SL https://github.com/docker/compose/releases/download/v2.6.0/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+    # Create directory for Docker CLI plugins
+    sudo mkdir -p /usr/local/lib/docker/cli-plugins
 
-# Make Docker Compose executable
-sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+    # Download Docker Compose
+    sudo curl -SL https://github.com/docker/compose/releases/download/v2.6.0/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
 
-# Set appropriate permissions for the Docker directory
-sudo chmod -R 755 /usr/local/lib/docker
+    # Make Docker Compose executable
+    sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
-# Install Nginx
-sudo yum install nginx -y
+    # Set appropriate permissions for the Docker directory
+    sudo chmod -R 755 /usr/local/lib/docker
 
-# Create a welcome page for Nginx
-echo "<h1>Welcome to Secret Data Stack for Amazing Data Projects</h1>" | sudo tee /usr/share/nginx/html/index.html
+    # Install Nginx
+    sudo yum install nginx -y
 
-# Start Nginx service
-sudo systemctl start nginx
+    # Create a welcome page for Nginx
+    echo "<h1>Welcome to Secret Data Stack for Amazing Data Projects</h1>" | sudo tee /usr/share/nginx/html/index.html
 
-# Enable Nginx to start on boot
-sudo systemctl enable nginx
+    # Start Nginx service
+    sudo systemctl start nginx
+
+    # Enable Nginx to start on boot
+    sudo systemctl enable nginx
+
+    # Re-execute this script with updated group permissions
+    exec sg docker "$0 second_run"
+    exit
+fi
+
+echo "Docker-related operations started"
 
 # Create a Docker volume for Portainer
-sudo docker volume create portainer_data
+docker volume create portainer_data
 
 # Run Portainer container
-sudo docker run -d -p 6200:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce --ssl
+docker run -d -p 6200:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce --ssl
 
 # Wait for Portainer to be healthy
 wait_for_container portainer
 
-# clone modern data stack
+# Clone modern data stack
 git clone https://github.com/mthammus/modern_data_stack
 
 # Navigate into the data stack directory
@@ -71,6 +82,7 @@ cd modern_data_stack
 
 # Clone Airbyte from GitHub
 git clone --depth=1 https://github.com/airbytehq/airbyte.git
+sleep 120
 
 # Switch into Airbyte directory
 cd airbyte
@@ -79,13 +91,16 @@ cd airbyte
 nohup ./run-ab-platform.sh > airbyte.log 2>&1 &
 
 # Wait for Airbyte to be healthy (you may need to adjust this based on how Airbyte reports health)
-sleep 60
+#sleep 180
 
 # Navigate back to the data stack directory
 cd ..
 
 # Bring up data stack services with Docker Compose
 docker compose up -d postgres mongodb minio minio-setup dremio spark dagster dagster-daemon
+
+# Wait for mongodb minio minio-setup dremio spark dagster dagster-daemon to be healthy 
+#sleep 240
 
 # Wait for data stack services to be healthy
 wait_for_container postgres
@@ -98,6 +113,9 @@ wait_for_container dagster-daemon
 
 # Set up Superset
 docker run -d -p 8080:8088 -e "SUPERSET_SECRET_KEY=cHnqm6yfvmwZtJLr4rhkkZQoDKP+Rr+ScSPkXWJBbFYmBVpEeod+njXoRjZbu+801tg=" --name superset apache/superset
+
+# Wait for superset to be healthy
+sleep 300
 
 # Wait for Superset to be healthy
 wait_for_container superset
@@ -113,3 +131,6 @@ docker exec -it superset superset load_examples
 
 # Initialize Superset
 docker exec -it superset superset init
+
+#setup complete
+echo "Setup Completed"
