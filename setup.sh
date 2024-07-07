@@ -109,7 +109,7 @@ docker run -d -p 8080:8088 -e "SUPERSET_SECRET_KEY=cHnqm6yfvmwZtJLr4rhkkZQoDKP+R
 echo "Superset container started."
 
 echo "Waiting for superset"
-sleep 240
+sleep 300
 
 echo "Creating Superset admin user..."
 docker exec -it superset superset fab create-admin --username mthammu --firstname Manoj --lastname Thammu --email mthammu@terces.io --password SecretDataStack5623#
