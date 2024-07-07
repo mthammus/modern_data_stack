@@ -9,4 +9,4 @@ cd ..
 docker compose stop
 docker stop superset
 
-echo "Both Docker Compose services have been stopped."
+echo "All services have been stopped."

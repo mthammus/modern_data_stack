@@ -9,4 +9,4 @@ cd ..
 docker compose start
 docker start superset
 
-echo "Both Docker Compose services have been started."
+echo "All services have been started."

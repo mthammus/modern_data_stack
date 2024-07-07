@@ -84,6 +84,7 @@ echo "Modern data stack repository cloned."
 
 echo "Navigating into the data stack directory..."
 cd modern_data_stack
+chmod +x *
 
 echo "Cloning Airbyte from GitHub..."
 git clone --depth=1 https://github.com/airbytehq/airbyte.git
