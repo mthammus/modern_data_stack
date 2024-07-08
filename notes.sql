@@ -1,5 +1,6 @@
 python3 -m venv dbt-env
 source dbt-env/bin/activate
+python3 -m pip install --upgrade pip
 pip install dbt
 mkdir dbt_project
 cd dbt_project
@@ -16,3 +17,4 @@ dbt test
 dbt docs generate
 dbt docs serve
 
+f
