@@ -101,14 +101,11 @@ services:
       terces:
         ipv4_address: 10.0.0.26
 
-
-
   #opentelemetry-collector
   opentelemetry-collector:
     image: otel/opentelemetry-collector:latest
     ports:
       - "4317:4317"
-      - "8889:8889"
     container_name: opentelemetry-collector
     hostname: opentelemetry-collector
     networks:
@@ -116,35 +113,30 @@ services:
         ipv4_address: 10.0.0.25
     command: ["--config", "/etc/otel-collector-config.yml"]
     volumes:
-      - ./otel-collector-config.yml:/etc/otel-collector-config.yml
+      - ./opentelemetry-collector/data/otel-collector-config.yml:/etc/otel-collector-config.yml
 
-
-
- #nessie
+# Nessie Catalog Server Using In-Memory Store
   nessie:
-    image: ghcr.io/projectnessie/nessie:latest
+    image: projectnessie/nessie:latest
     container_name: nessie
-    hostname: nessie
     depends_on:
       - opentelemetry-collector
       - postgres
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    ports:
+      - 19120:19120
     environment:
       NESSIE_VERSION_STORE_TYPE: "JDBC"
       QUARKUS_DATASOURCE_JDBC_URL: "jdbc:postgresql://10.0.0.30:5432/nessie"
       quarkus.datasource.username: "nessie"
       quarkus.datasource.password: "nessie"
       QUARKUS_OPENTELEMETRY_TRACER_EXPORTER_OTLP_ENDPOINT: "http://10.0.0.25:4317"
-    ports:
-      - "19120:19120"
     networks:
       terces:
         ipv4_address: 10.0.0.24
 
-
-
-    # Minio Storage Server
+# Minio Storage Server
   minio:
     image: minio/minio:latest
     environment:
@@ -220,7 +212,10 @@ services:
 
 #spark
   spark:
-    image: alexmerced/spark35notebook:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.spark
+    image: custom_spark_image:latest
     ports: 
       - 8123:8080  # Master Web UI
       - 7077:7077  # Master Port
@@ -239,6 +234,53 @@ services:
       terces:
         ipv4_address: 10.0.0.19
 
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      terces:
+        ipv4_address: 10.0.0.31
+
+#Superset
+  superset:
+    build:
+      context: .
+      dockerfile: Dockerfile.superset
+    container_name: superset
+    ports:
+      - 8080:8088
+    environment:
+      SUPERSET_SECRET_KEY: "cHnqm6yfvmwZtJLr4rhkkZQoDKP+Rr+ScSPkXWJBbFYmBVpEeod+njXoRjZbu+801tg="
+      SQLALCHEMY_DATABASE_URI: "postgresql+psycopg2://superset:superset@postgres:5432/superset"
+      #REDIS_URL: "redis://redis:6379/0"
+    volumes:
+      - ./superset_config.py:/app/pythonpath/superset_config.py
+    depends_on:
+      postgres:
+        condition: service_healthy
+      #redis:
+        #condition: service_healthy  
+    networks:
+      terces:
+        ipv4_address: 10.0.0.20
+    command:
+      - /bin/bash
+      - -c
+      - |
+        superset db upgrade && \
+        superset fab create-admin --username mthammu --firstname Manoj --lastname Thammu --email mthammu@terces.io --password SecretDataStack5623# && \
+        superset init && \
+        superset load_examples && \
+        superset init && \
+        gunicorn --bind 0.0.0.0:8088 "superset.app:create_app()"
+        
 
 #grafana
   grafana:
@@ -254,7 +296,6 @@ services:
     networks:
       terces:
         ipv4_address: 10.0.0.17
-
 
 #node-exporter
   node-exporter:

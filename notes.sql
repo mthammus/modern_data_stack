@@ -10,11 +10,23 @@ dbt init <Project_Name>
 
 
 
+dbt run --select my_model
+
+
 dbt debug
 dbt compile
 dbt run
 dbt test
 dbt docs generate
 dbt docs serve
+dbt docs serve --port 5000
 
-f
+
+
+![alt text](image.png)
+
+
+
+![alt text](image-1.png)
+
+docker exec -it spark_container /bin/bash

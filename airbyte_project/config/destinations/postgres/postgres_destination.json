@@ -1,0 +1,18 @@
+{
+    "name": "Postgres Destination",
+    "destinationDefinitionId": "25c5221d-dce2-4163-ade9-739ef790f503",
+    "workspaceId": "1bf57f8b-fbf9-4b14-b7ae-13964c25de47", 
+    "connectionConfiguration": {
+        "host": "postgres", 
+        "port": 5432,  
+        "database": "fnb", 
+        "username": "data",  
+        "password": "data",  
+        "schema": "public",  
+        "ssl_mode": {
+            "mode": "disable"
+        }
+    }
+}
+
+
