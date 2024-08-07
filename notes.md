@@ -27,6 +27,14 @@ dbt docs serve --port 5000
 
 
 
+<<<<<<< HEAD
+=======
+<<<<<<<< HEAD:notes.sql
+![alt text](image-1.png)
+
+docker exec -it spark_container /bin/bash
+========
+>>>>>>> origin/master
 <<<<<<< HEAD:notes.sql
 ![alt text](image-1.png)
 
@@ -34,3 +42,11 @@ docker exec -it spark_container /bin/bash
 =======
 ![alt text](image-1.png)
 >>>>>>> origin/master:notes.md
+<<<<<<< HEAD
+=======
+>>>>>>>> origin/master:notes.md
+>>>>>>> origin/master
+
+
+Cloud 9 Linkage
+curl -L https://raw.githubusercontent.com/c9/install/master/install.sh | bash

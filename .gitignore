@@ -9,9 +9,10 @@ MAD-GAB/
 #terraform.tfvars
 *.tfstate
 backup/
-data/
+#data/
 #minikube/
 pgaadmin_data/
+terraform/
 history/
 schedules/
 dremio/
@@ -124,7 +125,15 @@ docker-compose.override.yml
 .crash
 .terraform/
 #terraform.tfvars
+/Users/thammus/Data_Work/modern_data_stack/terraform/
 override.tf
+ec2.tf
+keypair.tf
+output.tf
+provider.tf
+terraform.tfvars
+variables.tf
+vpc.tf
 override.tf.json
 *_override.tf
 *_override.tf.json

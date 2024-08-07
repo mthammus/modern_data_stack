@@ -1,5 +1,5 @@
 #python3 get_definition_id.py source "Google Sheets"
-#python3 get_definition_id.py destination "Google BigQuery"
+#python3 get_definition_id.py destination "BigQuery"
 
 
 import requests

@@ -1,15 +1,15 @@
 fnbanalytics_warehouse:
-  target: dev
   outputs:
     dev:
-      type: dremio
-      threads: 1
-      software_host: 10.0.0.21
-      port: 9047  # Standard port for Dremio
-      user: mthammu
+      dremio_space: nessie
+      dremio_space_folder: fnbanalytics.01bronze
+      object_storage_path: fnbanalytics.00raw
+      object_storage_source: nessie
       password: SecretDataStack5623#
+      port: 9047
+      software_host: 10.0.0.21
+      threads: 1
+      type: dremio
       use_ssl: false
-      database: fnbanalytics
-      schema: 01bronze
-      object_storage_source: fnbanalytics_warehouse
-      object_storage_path: lakehouse.00raw
+      user: mthammu
+  target: dev

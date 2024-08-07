@@ -1,4 +1,4 @@
-#usage : python3 create_connection.py ../config/connections/google_sheets_to_postgres_connection.json
+#usage : python3 create_connection.py ../config/connections/gs_to_postgres_restaurants_godavari_usa.json
 
 
 import requests

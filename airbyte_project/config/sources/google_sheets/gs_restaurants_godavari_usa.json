@@ -1,7 +1,7 @@
 {
     "name": "gs_restaurants_godavari_usa",
     "sourceDefinitionId": "71607ba1-c0ac-4799-8049-7f4b90dd50f7",
-    "workspaceId": "1bf57f8b-fbf9-4b14-b7ae-13964c25de47",
+    "workspaceId": "c105dd0c-c12d-4e68-adc0-9a60bec9ea64",
     "connectionConfiguration": {
         "credentials": {
             "auth_type": "Service",

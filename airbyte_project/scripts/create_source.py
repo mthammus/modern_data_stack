@@ -1,4 +1,4 @@
-#python3 create_source.py ../config/sources/google_sheets/google_sheets_source.json
+#python3 create_source.py ../config/sources/google_sheets/gs_restaurants_godavari_usa.json
 
 import requests
 import json

@@ -1,5 +1,5 @@
 #usage : python3 list_sources.py your_workspace_id
-#usage : python3 list_sources.py 1bf57f8b-fbf9-4b14-b7ae-13964c25de47
+#usage : python3 list_sources.py fe973efc-6a88-457c-a248-2077f9c8e56c
 
 
 import requests

@@ -1,7 +1,11 @@
 FROM jupyter/pyspark-notebook:latest
 
 # Install necessary Python packages
+<<<<<<< HEAD
 RUN pip install transformers openai numpy pandas PyPDF2 pdfplumber minio tabula-py jpype1 camelot-py[cv] pytesseract pyspark pdfminer.six fitz PyMuPDF frontend pypdf pythonnet pdf2image opencv-python spacy tensorflow
+=======
+RUN pip install numpy pandas PyPDF2 pdfplumber minio tabula-py jpype1 camelot-py[cv] pytesseract pyspark pdfminer.six fitz PyMuPDF frontend pypdf pythonnet pdf2image opencv-python
+>>>>>>> origin/master
 
 # Temporarily switch to root user to create user and group and install Tesseract OCR
 USER root

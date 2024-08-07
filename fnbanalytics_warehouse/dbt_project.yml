@@ -20,17 +20,14 @@ clean-targets:
 models:
   fnbanalytics_warehouse:
     01bronze:
-      +database: fnbanalytics
-      +schema: 01bronze
+      +database: nessie
+      +schema: fnbanalytics.01bronze
       +materialized: table
-      #+post-hook: "DROP TABLE IF EXISTS {{ this }}"
     02silver:
-      +database: fnbanalytics
-      +schema: 02silver
+      +database: nessie
+      +schema: fnbanalytics.02silver
       +materialized: view
-      #+post-hook: "DROP VIEW IF EXISTS {{ this }}"
     03gold:
-      +database: fnbanalytics
-      +schema: 03gold
+      +database: nessie
+      +schema: fnbanalytics.03gold
       +materialized: view
-      #+post-hook: "DROP VIEW IF EXISTS {{ this }}"

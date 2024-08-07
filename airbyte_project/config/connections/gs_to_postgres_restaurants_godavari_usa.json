@@ -1,6 +1,6 @@
 {
-  "sourceId": "6feca6f3-6753-4e94-935e-f81303f0eb16",
-  "destinationId": "264508fa-df9f-4435-abb1-fcc0e87ebe18",
+  "sourceId": "23084a15-7996-4f52-a660-97eddbe6620b",
+  "destinationId": "2f38503c-ab41-45ab-ace2-b106d09dfb4c",
   "name": "gs_to_postgres_restaurants_godavari_usa",
   "namespaceDefinition": "customformat",
   "namespaceFormat": "public",
